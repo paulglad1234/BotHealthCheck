@@ -45,14 +45,14 @@ async Task MainAsync()
 
     if (botToHealthCheck.Status == UserStatus.Online)
     {
-        var messageFormats = configuration.GetSection("MessageFormats").GetChildren().ToArray();
-        await channel.SendMessageAsync(
-            string.Format(messageFormats[new Random().Next(messageFormats.Length)].Value ?? 
-                          "{0}, {1} устал, прилёг отдохнуть", me.Mention, botToHealthCheck.Mention));
         await Log(new LogMessage(LogSeverity.Info, "Main", "Healthcheck passed."));
     }
     else
     {
+        var messageFormats = configuration.GetSection("MessageFormats").GetChildren().ToArray();
+        await channel.SendMessageAsync(
+            string.Format(messageFormats[new Random().Next(messageFormats.Length)].Value ?? 
+                          "{0}, {1} got tired and went for a nap. Time to wake them up!", me.Mention, botToHealthCheck.Mention));
         await Log(new LogMessage(LogSeverity.Error, "Main", $"Healthcheck failed. Bot status: {botToHealthCheck.Status}"));
     }
     
